@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: leftoverloop-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+
+    # Health check — Render pings this to confirm the service is up
+    healthCheckPath: /api/impact/public/stats
+
+    envVars:
+      # Database — Aiven Cloud MySQL
+      - key: SPRING_DATASOURCE_URL
+        value: "jdbc:mysql://leftoverloop-mysql-leftoverloop-food.e.aivencloud.com:25838/defaultdb?sslMode=REQUIRED&useSSL=true&requireSSL=true&verifyServerCertificate=false"
+      - key: SPRING_DATASOURCE_USERNAME
+        value: avnadmin
+      # SPRING_DATASOURCE_PASSWORD must be set manually in Render dashboard (secret)
+
+      # JPA
+      - key: SPRING_JPA_DDL_AUTO
+        value: update
+      - key: SPRING_JPA_SHOW_SQL
+        value: "false"
+
+      # JWT — JWT_SECRET must be set manually in Render dashboard (secret)
+      - key: JWT_EXPIRATION_MS
+        value: "86400000"
+
+      # AI (Gemini — leave AI_API_KEY blank to use built-in fallback)
+      - key: AI_PROVIDER
+        value: gemini
+      - key: AI_API_URL
+        value: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+      - key: AI_API_KEY
+        value: ""
