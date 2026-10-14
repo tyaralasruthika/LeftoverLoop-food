@@ -3,11 +3,9 @@
    ========================================================================== */
 
 // Detect environment: use local backend in development, Render backend in production.
-// Before committing the deploy branch, replace REPLACE_WITH_RENDER_URL with your
-// actual Render service URL (e.g. https://leftoverloop-backend.onrender.com).
 const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? 'http://localhost:8080/api'
-  : 'https://REPLACE_WITH_RENDER_URL/api';
+  : 'https://leftoverloop-backend.onrender.com/api';
 
 class ApiClient {
 
